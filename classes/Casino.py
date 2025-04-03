@@ -16,3 +16,13 @@ class Casino:
 
     def __str__(self):
         return f"Welcome to casino, you have {self.balance} points in your balance"
+    
+
+print("Welcome to the C&M Casino!")
+print("Choose one of the following games:")
+print("1. Dice game")
+print("2. Slot machine")
+print("3. Blackjack")
+print("4. Roulette")
+print("5. Slot machine")
+#int(input("Please choose a game: "))

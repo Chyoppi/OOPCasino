@@ -16,9 +16,10 @@ games_list = {
 
 
 class Casino:
-    def __init__(self, balance: int):
-        self.balance = balance
-        self.game_controls = GameControls()
+    def __init__(self, player: Player):
+        self.player = player
+        self.balance = player.balance
+        self.game_controls = GameControls(self.player)
         self.start_casino()
 
     def __str__(self):
@@ -31,8 +32,12 @@ class Casino:
 
 # Maybe use a package to incorporate arrows and create a cooler UI?
 class GameControls:
+
+    def __init__(self, player: Player):
+        self.player = player
+
     def show_game_menu(self):
-        print("Welcome to the C&M Casino!")
+        print("Welcome to the CMR Casino!")
         for k, v in games_list.items():
             print(f"{k}. {v[0]}")
 
@@ -44,7 +49,7 @@ class GameControls:
                 if choice in games_list:
                     game_choice = games_list[choice]
                     print(f"You have chosen {game_choice[0]}")
-                    #self.run_game(game_choice[1])
+                    self.run_game(game_choice[1])
                     break
                 
                 else:
@@ -53,10 +58,10 @@ class GameControls:
                 print("Invalid input. Please enter a number between 1 and 5.")
 
     def run_game(self, game_class):
-        game_instance = game_class()
+        game_instance = game_class(self.player)
         game_instance.play_game()
 
 ## MAIN
 if __name__ == "__main__":
     player = Player("Test")
-    casino = Casino(balance=player.balance)
+    casino = Casino(player)

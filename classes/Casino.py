@@ -6,7 +6,8 @@
 from games.DiceGame import DiceGame
 from games.Blackjack import BlackJack
 from Player import Player
-import questionary
+
+import questionary # pip install questionary
 import os
 
 games_list = {

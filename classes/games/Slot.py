@@ -28,7 +28,66 @@ class slotMachine:
             print(f"Your balance is {self.player.get_balance()}.")
 
     def game(self):
-        print("Clunk! Clunk! Clunk!")
+        print("To start, pull the lever!")
+        input("Press 'p' to pull the lever: ")
+        if input == "p":
+            print("Clunk! Clunk! Clunk!")
+
+    def jackpot(self, symbols):
+        if random.sample(self.symbols, 3) == symbols["!"] :
+            print("You win the jackpot!")
+            self.player.add_balance(1000)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        elif random.sample(self.symbols, 3) == symbols["€"]:
+            print("You win the jackpot!")
+            self.player.add_balance(1000)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        elif random.sample(self.symbols, 3) == symbols["£"]:
+            print("You win the jackpot!")
+            self.player.add_balance(1000)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        elif random.sample(self.symbols, 3) == symbols["$"]:
+            print("You win the jackpot!")
+            self.player.add_balance(1000)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        
+    def miniPot(self, symbols):
+        if random.sample(self.symbols, 3) == symbols["!"] and symbols["£"]:
+            print("Cool! You won the mini POT!")
+            self.player.add_balance(75)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        elif random.sample(self.symbols, 3) == symbols["$"] and symbols["€"]:
+            print("Cool! You won the mini POT!")
+            self.player.add_balance(75)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        elif random.sample(self.symbols, 3) == symbols["!"] and symbols["€"]:
+            print("Cool! You won the mini POT!")
+            self.player.add_balance(75)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        elif random.sample(self.symbols, 3) == symbols["$"] and symbols["!"]:
+            print("Cool! You won the mini POT!")
+            self.player.add_balance(75)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        elif random.sample(self.symbols, 3) == symbols["$"] and symbols["£"]:
+            print("Cool! You won the mini POT!")
+            self.player.add_balance(75)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
+        
+    def lose(self, symbols):
+        if random.sample(self.symbols, 3):
+            print("You lose! Sorry...")
+            self.player.remove_balance(50)
+            print(f"Your balance is {self.player.get_balance()}.")
+            return True
         
         
 

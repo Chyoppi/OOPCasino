@@ -8,6 +8,11 @@ class BlackJack:
         self.player_hand = []
         self.dealer_hand = []
 
+    def play_game(self):
+        print("Blackjack game is still under development!")
+        return "BackToMainMenu"
+
+
     def create_deck(self):
         values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
         suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']

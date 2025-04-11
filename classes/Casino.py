@@ -13,7 +13,7 @@ import os
 games_list = {
     1: ("Dice Game", DiceGame),
     2: ("Slot Machine", None),
-    3: ("Blackjack", None),
+    3: ("Blackjack", BlackJack),
     4: ("Roulette", None)
 }
 
@@ -66,7 +66,10 @@ class GameControls:
             self.show_game_menu()
 
         game_instance = game_class(self.player)
-        game_instance.play_game()
+        game_status = game_instance.play_game()
+
+        if game_status == "BackToMainMenu":
+            self.show_game_menu()
 
     # Maybe use this when the game is done
     def return_to_menu(self, clear: bool):

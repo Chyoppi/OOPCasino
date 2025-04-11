@@ -1,7 +1,9 @@
+
 import random
 import Player
 
 class slotMachine:
+
     def __init__(self, player: Player, symbols):
         self.player = player
         self.symbols = ["!", "£", "€", "$", "?"]
@@ -12,6 +14,7 @@ class slotMachine:
         print("If you get the 3 same symbols you win the jackpot")
         print("if you get 2 same symbols you win 10% more than your bet")
         print("if you get 3 different symbols you lose your bet")
+        print("Beware of the unfortunate symbol '?'...")
         print("Good luck!")
 
     def bet(self):
@@ -27,7 +30,7 @@ class slotMachine:
             self.player.remove_balance(moneyBet)
             print(f"Your balance is {self.player.get_balance()}.")
 
-    def game(self):
+    def gameSoundFX(self):
         print("To start, pull the lever!")
         input("Press 'p' to pull the lever: ")
         if input == "p":
@@ -89,7 +92,12 @@ class slotMachine:
             print(f"Your balance is {self.player.get_balance()}.")
             return True
         
-        
+    def unfortunate(self,symbols):
+        if random.sample(self.symbols, 3) == ["?", "?", "?"]:
+            print("You got the unfortunate combo...")
+            self.player.remove_balance(130)
+            print(f"Your balance is unfortunately {self.player.get_balance()}.")
+            return True
 
 
         

@@ -6,11 +6,13 @@
 from games.DiceGame import DiceGame
 from games.Blackjack import BlackJack
 from Player import Player
+import questionary
+import os
 
 games_list = {
     1: ("Dice Game", DiceGame),
     2: ("Slot Machine", None),
-    3: ("Blackjack", BlackJack),
+    3: ("Blackjack", None),
     4: ("Roulette", None)
 }
 
@@ -27,10 +29,8 @@ class Casino:
 
     def start_casino(self):
         self.game_controls.show_game_menu()
-        self.game_controls.choose_game()
 
 
-# Maybe use a package to incorporate arrows and create a cooler UI?
 class GameControls:
 
     def __init__(self, player: Player):
@@ -38,28 +38,42 @@ class GameControls:
 
     def show_game_menu(self):
         print("Welcome to the CMR Casino!")
-        for k, v in games_list.items():
-            print(f"{k}. {v[0]}")
+        
+        games_list_choices = [v[0] for v in games_list.values()]
+        
+        choice_menu = questionary.select(
+            "Choose a game to play:", 
+            choices=games_list_choices, 
+            use_indicator=True
+        ).ask()
 
-    def choose_game(self):
-        while True:
-            try:
-                choice = int(input("Please choose a game: "))
+        game_user_choice = None
 
-                if choice in games_list:
-                    game_choice = games_list[choice]
-                    print(f"You have chosen {game_choice[0]}")
-                    self.run_game(game_choice[1])
-                    break
-                
-                else:
-                    print("Invalid selection. Please enter a valid number.")
-            except ValueError:
-                print("Invalid input. Please enter a number between 1 and 5.")
+        for v in games_list.values():
+            if v[0] == choice_menu:
+                game_user_choice = v
+                break
+
+        if game_user_choice:
+            print(f"You have chosen {game_user_choice[0]}")
+            self.run_game(game_user_choice[1])
 
     def run_game(self, game_class):
+
+        if game_class is None:
+            print("This game is not ready yet :(")
+            self.show_game_menu()
+
         game_instance = game_class(self.player)
         game_instance.play_game()
+
+    # Maybe use this when the game is done
+    def return_to_menu(self, clear: bool):
+        if clear:
+            os.system("cls")
+
+        self.show_game_menu()
+
 
 ## MAIN
 if __name__ == "__main__":

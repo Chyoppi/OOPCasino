@@ -6,7 +6,7 @@ class slotMachine:
 
     def __init__(self, player: Player):
         self.player = player
-        self.symbols = ["!", "£", "€", "$", "?"]
+        self.symbols = ["!", "£", "€", "$", "?"]  # Slot machine symbols
         
     def set_bet(self):
         if self.player.get_balance() <= 0:
@@ -24,6 +24,7 @@ class slotMachine:
             except ValueError:
                 print("Invalid input. Please enter a number.") 
     
+    # Explanation of the rules
     def rules(self):
         print("Welcome to the slot machine game!")
         print("These are the rules:")
@@ -46,6 +47,7 @@ class slotMachine:
             self.player.remove_balance(moneyBet)
             print(f"Your balance is {self.player.get_balance()}.")
 
+    # Starts the game and add "clunk" sound effect
     def gameSoundFX(self):
         print("To start, pull the lever!")
         player_input = input("Press 'p' to pull the lever: ")
@@ -56,11 +58,11 @@ class slotMachine:
         
 
     def jackpot(self, result):
-        jackpot_symbols = ["!", "£", "€", "$"]
+        jackpot_symbols = ["!", "£", "€", "$"] #only these symbols are allowed in the jackpot
 
-        if result[0] == result[1] == result[2] and result[0] in jackpot_symbols:
+        if result[0] == result[1] == result[2] and result[0] in jackpot_symbols: #this makes sure that the symbols are the same and not including the "?" symbol
             print("You win the jackpot!")
-            self.player.add_balance(1000)
+            self.player.add_balance(1000) # If you win you get a lot of money
             print(f"Your balance is {self.player.get_balance()}.")
             return True
         return False
@@ -69,7 +71,7 @@ class slotMachine:
         
         minipot_symbols = ["!", "£", "€", "$"]
         
-        if len(set(result)) == 2 and all(symbol in minipot_symbols for symbol in result):  
+        if len(set(result)) == 2 and all(symbol in minipot_symbols for symbol in result):  # Check if there are 2 same symbols and 1 different symbol
             print("Cool! You won the mini POT!")
             self.player.add_balance(75)
             print(f"Your balance is {self.player.get_balance()}.")
@@ -77,19 +79,20 @@ class slotMachine:
         return False
         
     def lose(self, result):
-        if len(set(result)) == 3 and all(symbol in self.symbols for symbol in result):  
+        if len(set(result)) == 3 and all(symbol in self.symbols for symbol in result):  # this checks if all symbols are different
             print("You lose! Sorry...")
-            print(f"Your balance is {self.player.get_balance()}.")
+            print(f"Your balance is {self.player.get_balance()}.") # you win no omey
             return True
         return False
         
     def unfortunate(self, result):
-        if result == ["?", "?", "?"]:
+        if result == ["?", "?", "?"]: # this checks if all symbols are "?" symbols
             print("You got the unfortunate combo...")
-            self.player.remove_balance(130)
+            self.player.remove_balance(130) # you lose unfortunate amount of money
             print(f"Your balance is unfortunately {self.player.get_balance()}.")
             return True
         
+    # Ties everything together
     def play(self):
         self.rules()
         if not self.set_bet():

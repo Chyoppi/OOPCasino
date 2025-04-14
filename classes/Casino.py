@@ -1,8 +1,5 @@
 #Games which are commented have not been implemented yet
 
-#from games.Blackjack import Blackjack
-#from games.Slot import Slot
-#from games.Roulette import Roulette
 from games.DiceGame import DiceGame
 from games.Blackjack import BlackJack
 from games.Slot import slotMachine
@@ -14,8 +11,7 @@ import os
 games_list = {
     1: ("Dice Game", DiceGame),
     2: ("Slot Machine", slotMachine),
-    3: ("Blackjack", BlackJack),
-    4: ("Roulette", None)
+    3: ("Blackjack", BlackJack)
 }
 
 

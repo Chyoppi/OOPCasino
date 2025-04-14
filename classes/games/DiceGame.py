@@ -1,4 +1,5 @@
 from random import randint
+import questionary
 import Player
 
 class DiceGame:
@@ -24,8 +25,12 @@ class DiceGame:
 
     def decide_side(self):
         while True:
-            self.player_choice = input("Higher (4,5,6) or Lower (1,2,3)? (H/L): ").upper()
-            if self.player_choice in ["H", "L"]:
+            self.player_choice = questionary.select("Higher (4,5,6) or Lower (1,2,3)? (H/L)",
+            choices=[
+                "Higher",
+                "Lower",
+            ]).ask()
+            if self.player_choice in ["Higher", "Lower"]:
                 break
             else:
                 print("Invalid choice. Please enter 'H' for Higher or 'L' for Lower.")
@@ -46,6 +51,26 @@ class DiceGame:
             # Player loses
             return False
         
+    def play_again(self):
+        play_again = questionary.select("Do you want to play again?",
+            choices=[
+                "Yes",
+                "No",
+                "Return to Game Selection",
+            ]).ask()
+        
+        if play_again == "Yes" and self.player.get_balance() > 0:
+            self.play_game()
+        elif play_again == "No":
+            print("Thanks for playing!")
+            return False
+        elif play_again == "Return to Game Selection":
+            print("Returning to game selection")
+            return "BackToMainMenu"
+        else:
+            print("You don't have enough balance to play again.")
+            return False
+        
     def play_game(self):
         self.set_bet()
         self.decide_side()
@@ -56,4 +81,8 @@ class DiceGame:
         else:
             print("You lost!")
         print(f"Your new balance is {self.player.get_balance()}.")
+        
+        result = self.play_again()
+        if result == "BackToMainMenu":
+            return "BackToMainMenu"
 

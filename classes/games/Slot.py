@@ -59,7 +59,7 @@ class slotMachine:
         
         if len(set(result)) == 2 and all(symbol in minipot_symbols for symbol in result):  # Check if there are 2 same symbols and 1 different symbol
             print("Cool! You won the mini POT!")
-            self.player.add_balance(self.player.get_bet() * 1.1)
+            self.player.add_balance(self.player.get_bet() + 150)
             print(f"Your balance is {self.player.get_balance()}.")
             return True
         return False

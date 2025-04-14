@@ -34,19 +34,6 @@ class slotMachine:
         print("Beware of the unfortunate symbol '?'...")
         print("Good luck!")
 
-    def bet(self):
-        print(f"Your balance is {self.player.get_balance()}.")
-        moneyBet = int(input("Bet amount: "))
-        if moneyBet > self.player.get_balance():
-            print("ERROR: You don't have enough money.")
-            return
-        elif moneyBet <= 0:
-            print("ERROR: Invalid bet amount.")
-            return
-        else:
-            self.player.remove_balance(moneyBet)
-            print(f"Your balance is {self.player.get_balance()}.")
-
     # Starts the game and add "clunk" sound effect
     def gameSoundFX(self):
         print("To start, pull the lever!")
@@ -55,14 +42,13 @@ class slotMachine:
             print("Clunk! Clunk! Clunk!")
         else:
             print("ERROR")
-        
 
     def jackpot(self, result):
         jackpot_symbols = ["!", "£", "€", "$"] #only these symbols are allowed in the jackpot
 
         if result[0] == result[1] == result[2] and result[0] in jackpot_symbols: #this makes sure that the symbols are the same and not including the "?" symbol
             print("You win the jackpot!")
-            self.player.add_balance(1000) # If you win you get a lot of money
+            self.player.add_balance(self.player.get_bet() * 15) # If you win you get a lot of money
             print(f"Your balance is {self.player.get_balance()}.")
             return True
         return False
@@ -73,7 +59,7 @@ class slotMachine:
         
         if len(set(result)) == 2 and all(symbol in minipot_symbols for symbol in result):  # Check if there are 2 same symbols and 1 different symbol
             print("Cool! You won the mini POT!")
-            self.player.add_balance(75)
+            self.player.add_balance(self.player.get_bet() * 1.1)
             print(f"Your balance is {self.player.get_balance()}.")
             return True
         return False
@@ -93,7 +79,7 @@ class slotMachine:
             return True
         
     # Ties everything together
-    def play(self):
+    def play_game(self):
         self.rules()
         if not self.set_bet():
             return
@@ -108,10 +94,3 @@ class slotMachine:
             return
         self.lose(result)
         
-        
-#TEST 
-player = Player(1000)  # Example player with a balance of 1000
-slot_machine = slotMachine(player)
-
-# Play the game
-slot_machine.play()

@@ -44,7 +44,6 @@ class DiceGame:
             return True
         else:
             # Player loses
-            self.player.remove_balance(self.player.get_bet())
             return False
         
     def play_game(self):

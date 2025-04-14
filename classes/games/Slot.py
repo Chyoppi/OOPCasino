@@ -1,5 +1,7 @@
 
 import random 
+import time
+import questionary
 from Player import Player
 
 class slotMachine:
@@ -25,14 +27,19 @@ class slotMachine:
                 print("Invalid input. Please enter a number.") 
     
     # Explanation of the rules
-    def rules(self):
-        print("Welcome to the slot machine game!")
-        print("These are the rules:")
-        print("If you get the 3 same symbols you win the jackpot")
-        print("if you get 2 same symbols you win 10% more than your bet")
-        print("if you get 3 different symbols you lose your bet")
-        print("Beware of the unfortunate symbol '?'...")
-        print("Good luck!")
+    def rules(self): 
+        rules = """
+        Welcome to the slot machine game!
+        These are the rules:
+
+        If you get the 3 same symbols you win the jackpot
+        If you get 2 same symbols you win 10% more than your bet
+        If you get 3 different symbols you lose your bet
+        Beware of the unfortunate symbol '?'...
+
+        Good luck!
+        """
+        print(rules)
 
     # Starts the game and add "clunk" sound effect
     def gameSoundFX(self):
@@ -78,12 +85,33 @@ class slotMachine:
             print(f"Your balance is unfortunately {self.player.get_balance()}.")
             return True
         
+    def play_again(self):
+        play_again = questionary.select("Do you want to play again?",
+            choices=[
+                "Yes",
+                "No",
+                "Return to Game Selection",
+            ]).ask()
+        
+        if play_again == "Yes" and self.player.get_balance() > 0:
+            return self.play_game()
+        elif play_again == "No":
+            print("Thanks for playing!")
+            return False
+        elif play_again == "Return to Game Selection":
+            print("Returning to game selection")
+            return "BackToMainMenu"
+        else:
+            print("You don't have enough balance to play again.")
+            return False
+        
     # Ties everything together
     def play_game(self):
         self.rules()
         if not self.set_bet():
             return
         self.gameSoundFX()
+        time.sleep(1) # Waits for 1 second before showing results
         result = random.choices(self.symbols, k=3)
         print(f"Result: {result}")
         if self.jackpot(result):
@@ -93,4 +121,8 @@ class slotMachine:
         if self.unfortunate(result):
             return
         self.lose(result)
+
+        game_choice = self.play_again()
+        if game_choice == "BackToMainMenu":
+            return "BackToMainMenu"
         

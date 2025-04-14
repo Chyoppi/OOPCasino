@@ -83,7 +83,7 @@ class BlackJack:
         self.player.clear_hand()
         self.dealer_hand.clear()
 
-        print(f"\nYour balance: {self.player.get_balance()} €")
+        print(f"\nYour balance: {self.player.get_balance()}")
 
         player_bet = self.place_bet()
         self.player.set_bet(player_bet)

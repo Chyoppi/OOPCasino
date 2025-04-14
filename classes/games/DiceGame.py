@@ -13,7 +13,8 @@ class DiceGame:
             return False
         while True:
             try:
-                bet = int(input(f"Your current balance is {self.player.get_balance()}. Enter your bet: "))
+                print(f"Your current balance is {self.player.get_balance()}.")
+                bet = int(questionary.text("Place your bet:").ask())
                 if 0 < bet <= self.player.get_balance():
                     self.player.remove_balance(bet)
                     self.player.set_bet(bet)
@@ -60,7 +61,7 @@ class DiceGame:
             ]).ask()
         
         if play_again == "Yes" and self.player.get_balance() > 0:
-            self.play_game()
+            return self.play_game()
         elif play_again == "No":
             print("Thanks for playing!")
             return False
@@ -82,7 +83,7 @@ class DiceGame:
             print("You lost!")
         print(f"Your new balance is {self.player.get_balance()}.")
         
-        result = self.play_again()
-        if result == "BackToMainMenu":
+        game_choice = self.play_again()
+        if game_choice == "BackToMainMenu":
             return "BackToMainMenu"
 

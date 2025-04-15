@@ -2,7 +2,8 @@ from utils.colors import CPrint
 from games.DiceGame import DiceGame
 from games.Blackjack import BlackJack
 from games.Slot import slotMachine
-from Player import Player
+from Player import Player, VIP_Player
+
 import questionary # pip install questionary
 
 games_list = {
@@ -84,6 +85,14 @@ if __name__ == "__main__":
     player = Player("Test")
     casino = Casino(player)
     casino.start_casino()
+
+#Added VIP_Player class, using inheritance from Player
+"""
+if __name__ == "__main__":
+    vip_player = VIP_Player("VIPTest")
+    casino = Casino(vip_player)
+
+"""
 
 
 """

@@ -11,16 +11,15 @@ games_list = {
     1: ("Dice Game", DiceGame),
     2: ("Slot Machine", slotMachine),
     3: ("Blackjack", BlackJack),
-    4: ("Reset Balance", None),
+    4: ("Reset Balance", "reset_balance"),
     5: ("Exit", None)
 }
-
 
 class Casino:
     def __init__(self, player: Player):
         self.player = player
         self.balance = player.balance
-        self.game_controls = GameControls(self.player)
+        self.game_controls = GameControls(self)
         self.start_casino()
 
     def __str__(self):
@@ -29,11 +28,21 @@ class Casino:
     def start_casino(self):
         self.game_controls.show_game_menu()
 
+    def reset_balance(self):
+        if self.player.get_balance() == 0:
+            print("~y~You don't have enough money? Let's reset your balance.")
+            self.player.add_balance(1000)
+        else:
+            print("~y~You still have money...")
+
+        self.start_casino()
+
 
 class GameControls:
 
-    def __init__(self, player: Player):
-        self.player = player
+    def __init__(self, casino: Casino):
+        self.player = casino.player
+        self.casino = casino
 
     def show_game_menu(self):
         print("Welcome to the CMR Casino!\n")
@@ -59,12 +68,7 @@ class GameControls:
             if game_user_choice[0] == "Exit":
                 exit()
             elif game_user_choice[0] == "Reset Balance":
-                if self.player.get_balance() == 0:
-                    print("~y~You don't have enough money? Let's reset your balance.")
-                    self.player.add_balance(1000)
-                else:
-                    print("~y~You still have money...")
-
+                self.casino.reset_balance()
                 self.show_game_menu()
             
             self.run_game(game_user_choice[1])
@@ -82,6 +86,30 @@ class GameControls:
 
 
 ## MAIN
+
 if __name__ == "__main__":
     player = Player("Test")
     casino = Casino(player)
+
+
+"""
+## TEST FUNCTIONS
+test_player = Player("Test Player")
+#test_casino = Casino(test_player)
+
+# Add Balance
+test_player.add_balance(500)
+test_player.add_balance(0) # Cannot add a negative balance
+
+# Remove Balance
+test_player.remove_balance(500)
+test_player.remove_balance(0) # Cannot remove a zero balance
+
+# Set Bet
+test_player.set_bet(100)
+test_player.set_bet(0) # Bet cannot be empty or zero
+
+# Add Card
+test_player.add_card("Ace of Spades")
+test_player.add_card() # missing 1 required positional argument: 'card'
+"""

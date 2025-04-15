@@ -58,7 +58,7 @@ class GameControls:
 
             if game_user_choice[0] == "Exit":
                 exit()
-            elif game_user_choice[0] == "Broke":
+            elif game_user_choice[0] == "Reset Balance":
                 if self.player.get_balance() == 0:
                     print("~y~You don't have enough money? Let's reset your balance.")
                     self.player.add_balance(1000)
@@ -72,7 +72,6 @@ class GameControls:
     def run_game(self, game_class):
 
         if game_class is None:
-            print("This game is not ready yet :(")
             self.show_game_menu()
 
         game_instance = game_class(self.player)

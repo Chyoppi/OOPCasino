@@ -131,7 +131,10 @@ class BlackJack:
             print("\033[93mIt's a tie!\033[0m")
 
         # Play again?
-        play_again(self)
+        game_choice = play_again(self)
+
+        if game_choice == "BackToMainMenu":
+            return "BackToMainMenu"
 
 
 def play_again(self):

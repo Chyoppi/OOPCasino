@@ -133,16 +133,21 @@ class BlackJack:
         # Play again?
         play_again(self)
 
-        system("cls")
-        return "BackToMainMenu"
-
 
 def play_again(self):
     play_again = questionary.select("Do you want to play again?",
     choices=[
         "Yes",
         "No",
+        "Return to Game Selection",
     ]).ask()
     
     if play_again == "Yes":
         self.play_game()
+        system("cls")
+    elif play_again == "No":
+        print("Thank you for playing!")
+        return False
+    elif play_again == "Return to Game Selection":
+        system("cls")
+        return "BackToMainMenu"

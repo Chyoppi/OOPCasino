@@ -37,13 +37,13 @@ class BlackJack:
                 player_bet_input = int(questionary.text("Place your bet:").ask())
 
                 if player_bet_input <= 0:
-                    print("Bet must be greater than 0!")
+                    print("\033[91mBet must be greater than 0!\033[0m")
                 elif player_bet_input > self.player.get_balance():
-                    print("You don't have enough balance!")
+                    print("\033[91mYou don't have enough balance!\033[0m")
                 else:
                     return player_bet_input
             except ValueError:
-                print("Invalid input! Please enter a valid bet.")
+                print("\033[91mInvalid input! Please enter a valid bet.\033[0m")
 
     def choose_hit_or_stand(self):
         while self.calculate_hand(self.player.show_hand()) < 21:
@@ -83,7 +83,7 @@ class BlackJack:
         self.player.clear_hand()
         self.dealer_hand.clear()
 
-        print(f"\nYour balance: {self.player.get_balance()}")
+        print(f"\n\033[92mYour balance: {self.player.get_balance()}\033[0m")
 
         player_bet = self.place_bet()
         self.player.set_bet(player_bet)
@@ -104,7 +104,7 @@ class BlackJack:
 
         # If player goes over 21, the game ends
         if self.calculate_hand(self.player.show_hand()) > 21:
-            print(f"{self.player.name} went over 21! You lost!")
+            print(f"{self.player.name} went over 21! \033[91mYou lost!\033[0m")
             self.player.add_balance(self.player.get_bet())
             play_again(self)
 
@@ -120,15 +120,15 @@ class BlackJack:
         dealer_total = self.calculate_hand(self.dealer_hand)
 
         if dealer_total > 21:
-            print("Dealer went over 21! Player wins!")
+            print("\033[92mDealer went over 21! Player wins!\033[0m")
             self.player.add_balance(self.player.get_bet() * 2)
         elif player_total > dealer_total:
-            print(f"{self.player.name}'s wins!")
+            print(f"\033[92m{self.player.name} wins!\033[0m")
             self.player.add_balance(self.player.get_bet() * 2)
         elif player_total < dealer_total:
-            print("Dealer wins!")
+            print("\033[91mDealer wins!\033[0m")
         else:
-            print("It's a tie!")
+            print("\033[93mIt's a tie!\033[0m")
 
         # Play again?
         play_again(self)

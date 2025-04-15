@@ -11,8 +11,7 @@ import os
 games_list = {
     1: ("Dice Game", DiceGame),
     2: ("Slot Machine", slotMachine),
-    3: ("Blackjack", BlackJack),
-    4: ("Exit", None)
+    3: ("Blackjack", BlackJack)
 }
 
 
@@ -36,7 +35,7 @@ class GameControls:
         self.player = player
 
     def show_game_menu(self):
-        print("Welcome to the CMR Casino!\n")
+        print("Welcome to the CMR Casino!")
         
         games_list_choices = [v[0] for v in games_list.values()]
         
@@ -55,10 +54,6 @@ class GameControls:
 
         if game_user_choice:
             print(f"You have chosen {game_user_choice[0]}")
-
-            if game_user_choice[0] == "Exit":
-                exit()
-
             self.run_game(game_user_choice[1])
 
     def run_game(self, game_class):
@@ -72,6 +67,13 @@ class GameControls:
 
         if game_status == "BackToMainMenu":
             self.show_game_menu()
+
+    # Maybe use this when the game is done
+    def return_to_menu(self, clear: bool):
+        if clear:
+            os.system("cls")
+
+        self.show_game_menu()
 
 
 ## MAIN

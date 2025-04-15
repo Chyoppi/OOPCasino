@@ -35,13 +35,8 @@ class Casino:
             print("~y~You still have money...")
 
     def user_status(self):
-        vip_status = "No"
         print(f"User: ~b~{self.player.name}~reset~, Balance: ~b~{self.player.balance}")
-
-        if isinstance(self.player, VIP_Player):
-            vip_status = "Yes"
-
-        print("VIP Status: ~g~", vip_status)
+        print(f"VIP Status: ~g~{self.player.role}")
         
 
 class GameControls(Casino):

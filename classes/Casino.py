@@ -10,8 +10,9 @@ games_list = {
     1: ("Dice Game", DiceGame),
     2: ("Slot Machine", slotMachine),
     3: ("Blackjack", BlackJack),
-    4: ("Reset Balance", "reset_balance"),
-    5: ("Exit", None)
+    4: ("Reset Balance", None),
+    5: ("User status", None),
+    6: ("Exit", None)
 }
 
 class Casino:
@@ -32,6 +33,16 @@ class Casino:
             self.player.add_balance(1000)
         else:
             print("~y~You still have money...")
+
+    def user_status(self):
+        vip_status = "No"
+        print(f"User: ~b~{self.player.name}~reset~, Balance: ~b~{self.player.balance}")
+
+        if isinstance(self.player, VIP_Player):
+            vip_status = "Yes"
+
+        print("VIP Status: ~g~", vip_status)
+        
 
 class GameControls(Casino):
 
@@ -64,6 +75,8 @@ class GameControls(Casino):
             elif game_user_choice[0] == "Reset Balance":
                 self.reset_balance()
                 self.show_game_menu()
+            elif game_user_choice[0] == "User status":
+                self.user_status()
             
             self.run_game(game_user_choice[1])
 
@@ -80,18 +93,17 @@ class GameControls(Casino):
 
 
 ## MAIN
-
 if __name__ == "__main__":
     player = Player("Test")
     casino = Casino(player)
     casino.start_casino()
 
-#Added VIP_Player class, using inheritance from Player
+# Added VIP_Player class, using inheritance from Player
 """
 if __name__ == "__main__":
     vip_player = VIP_Player("VIPTest")
     casino = Casino(vip_player)
-
+    casino.start_casino()
 """
 
 

@@ -38,13 +38,13 @@ class BlackJack:
 
                 if player_bet_input <= 0:
                     print("Bet ~r~MUST~reset~ be geater than ~r~0!~reset~")
-                    
+
                 elif player_bet_input > self.player.get_balance():
-                    print("\033[91mYou don't have enough balance!\033[0m")
+                    print("~r~You don't have enough balance!")
                 else:
                     return player_bet_input
             except ValueError:
-                print("\033[91mInvalid input! Please enter a valid bet.\033[0m")
+                print("~r~Invalid input!~reset~ Please enter ~g~a valid (NUMBER)~reset~ bet.\033")
 
     def choose_hit_or_stand(self):
         while self.calculate_hand(self.player.show_hand()) < 21:
@@ -56,21 +56,21 @@ class BlackJack:
 
             if player_action == "Hit":
                 self.player.add_card(self.deal_card())
-                print(f"{self.player.name}'s new hand: {self.player.show_hand()} Total: {self.calculate_hand(self.player.show_hand())}")
+                print(f"{self.player.name}'s new hand: ~y~{self.player.show_hand()}~reset~ Total: {self.calculate_hand(self.player.show_hand())}")
             elif player_action == "Stand":
                 return
             
     def print_blackjack_guide(self):
         guide_text = """
-        How to Play Blackjack:
+        ~b~How to Play Blackjack:~reset~
 
-        1. Place your bet.
-        2. Hit to draw a card or Stand to keep your hand.
-        3. The goal is to get as close to 21 as possible without going over.
-        4. The dealer plays after you. If they go over 21, you win.
-        5. Compare hands: The closest to 21 wins.
+        ~c~1.~reset~ Place your bet.
+        ~c~2.~reset~ Hit to draw a card or Stand to keep your hand.
+        ~c~3.~reset~ The goal is to get as close to ~b~21~reset~ as possible without going over.
+        ~c~4.~reset~ The dealer plays after you. If they go over ~b~21~reset~, you win.
+        ~c~5.~reset~ Compare hands: The closest to ~b~21~reset~ wins.
 
-        Enjoy and good luck!
+        ~g~Enjoy and good luck!~reset~
         """
 
         print(guide_text)
@@ -78,13 +78,13 @@ class BlackJack:
 
     def play_game(self):
         system("cls")
-        print("Welcome to Blackjack!")
+        print("~g~Welcome to Blackjack!")
         self.print_blackjack_guide()
 
         self.player.clear_hand()
         self.dealer_hand.clear()
 
-        print(f"\n\033[92mYour balance: {self.player.get_balance()}\033[0m")
+        print(f"Your balance: ~g~{self.player.get_balance()}")
 
         player_bet = self.place_bet()
         self.player.set_bet(player_bet)
@@ -97,39 +97,39 @@ class BlackJack:
         self.dealer_hand.append(self.deal_card())
 
         # Player status
-        print(f"\n{self.player.name}'s hand: {self.player.show_hand()} Total: {self.calculate_hand(self.player.show_hand())}")
-        print(f"Dealer's first card: {self.dealer_hand[0]}\n")
+        print(f"\n{self.player.name}'s hand: ~y~{self.player.show_hand()}~reset~ Total: {self.calculate_hand(self.player.show_hand())}")
+        print(f"Dealer's first card: ~y~{self.dealer_hand[0]}\n")
 
         # Player can choose "hit" or "stand"
         self.choose_hit_or_stand()
 
         # If player goes over 21, the game ends
         if self.calculate_hand(self.player.show_hand()) > 21:
-            print(f"{self.player.name} went over 21! \033[91mYou lost!\033[0m")
+            print(f"{self.player.name} went over 21! ~r~You lost!")
             self.player.add_balance(self.player.get_bet())
             play_again(self)
 
         # Dealer plays its turn
-        print(f"\nDealer's hand: {self.dealer_hand} Total: {self.calculate_hand(self.dealer_hand)}")
+        print(f"\nDealer's hand: ~y~{self.dealer_hand}~reset~ Total: {self.calculate_hand(self.dealer_hand)}")
         while self.calculate_hand(self.dealer_hand) < 17:
             print("Dealer hits...")
             self.dealer_hand.append(self.deal_card())
-            print(f"Dealer's new hand: {self.dealer_hand} Total: {self.calculate_hand(self.dealer_hand)}")
+            print(f"Dealer's new hand: ~y~{self.dealer_hand}~reset~ Total: {self.calculate_hand(self.dealer_hand)}")
 
         # Game ends
         player_total = self.calculate_hand(self.player.show_hand())
         dealer_total = self.calculate_hand(self.dealer_hand)
 
         if dealer_total > 21:
-            print("\033[92mDealer went over 21! Player wins!\033[0m")
+            print("~g~Dealer went over 21! Player wins!~reset~\n")
             self.player.add_balance(self.player.get_bet() * 2)
         elif player_total > dealer_total:
-            print(f"\033[92m{self.player.name} wins!\033[0m")
+            print(f"~g~{self.player.name} wins!~reset~\n")
             self.player.add_balance(self.player.get_bet() * 2)
         elif player_total < dealer_total:
-            print("\033[91mDealer wins!\033[0m")
+            print("~r~Dealer wins!~reset~\n")
         else:
-            print("\033[93mIt's a tie!\033[0m")
+            print("~y~It's a tie!~reset~\n")
 
         # Play again?
         game_choice = play_again(self)

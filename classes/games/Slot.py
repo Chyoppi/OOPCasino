@@ -16,7 +16,8 @@ class slotMachine:
             return False
         while True:
             try:
-                bet = int(input(f"Your current balance is {self.player.get_balance()}. Enter your bet: "))
+                print(f"\n\033[92mYour balance: {self.player.get_balance()}\033[0m")
+                bet = int(input("Enter your bet: "))
                 if 0 < bet <= self.player.get_balance():
                     self.player.remove_balance(bet)
                     self.player.set_bet(bet)
@@ -51,12 +52,12 @@ class slotMachine:
             print("ERROR")
 
     def jackpot(self, result):
-        jackpot_symbols = ["!", "£", "€", "$"] #only these symbols are allowed in the jackpot
+        jackpot_symbols = ["!", "£", "€", "$"] # Only these symbols are allowed in the jackpot
 
         if result[0] == result[1] == result[2] and result[0] in jackpot_symbols: #this makes sure that the symbols are the same and not including the "?" symbol
-            print("You win the jackpot!")
+            print("\033[93mYou won the jackpot!\033[0m")
             self.player.add_balance(self.player.get_bet() * 15) # If you win you get a lot of money
-            print(f"Your balance is {self.player.get_balance()}.")
+            print(f"\n\033[92mYour balance: {self.player.get_balance()}\033[0m")
             return True
         return False
         
@@ -65,23 +66,23 @@ class slotMachine:
         minipot_symbols = ["!", "£", "€", "$"]
         
         if len(set(result)) == 2 and all(symbol in minipot_symbols for symbol in result):  # Check if there are 2 same symbols and 1 different symbol
-            print("Cool! You won the mini POT!")
+            print("\033[93mCool! You won the mini POT!\033[0m")
             self.player.add_balance(self.player.get_bet() + 150)
-            print(f"Your balance is {self.player.get_balance()}.")
+            print(f"\n\033[92mYour balance: {self.player.get_balance()}\033[0m")
             return True
         return False
         
     def lose(self, result):
         if len(set(result)) == 3 and all(symbol in self.symbols for symbol in result):  # this checks if all symbols are different
-            print("You lose! Sorry...")
-            print(f"Your balance is {self.player.get_balance()}.") # you win no omey
+            print("\033[91mYou lose... Sorry!\033[0m")
+            print(f"\n\033[92mYour balance: {self.player.get_balance()}\033[0m") # you win no omey
             return True
         return False
         
     def unfortunate(self, result):
-        if result == ["?", "?", "?"]: # this checks if all symbols are "?" symbols
-            print("You got the unfortunate combo...")
-            self.player.remove_balance(130) # you lose unfortunate amount of money
+        if result == ["?", "?", "?"]: # This checks if all symbols are "?" symbols
+            print("\033[91mYou got the unfortunate combo :(\033[0m")
+            self.player.remove_balance(200) # You lose unfortunate amount of money
             print(f"Your balance is unfortunately {self.player.get_balance()}.")
             return True
         
@@ -115,12 +116,13 @@ class slotMachine:
         result = random.choices(self.symbols, k=3)
         print(f"Result: {result}")
         if self.jackpot(result):
-            return
-        if self.miniPot(result):
-            return
-        if self.unfortunate(result):
-            return
-        self.lose(result)
+            pass
+        elif self.miniPot(result):
+            pass
+        elif self.unfortunate(result):
+            pass
+        else:
+            self.lose(result)
 
         game_choice = self.play_again()
         if game_choice == "BackToMainMenu":

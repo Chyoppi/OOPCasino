@@ -55,7 +55,7 @@ class BlackJack:
 
             if player_action == "Hit":
                 self.player.add_card(self.deal_card())
-                print(f"{self.player.name} new hand: {self.player.show_hand()} Total: {self.calculate_hand(self.player.show_hand())}")
+                print(f"{self.player.name}'s new hand: {self.player.show_hand()} Total: {self.calculate_hand(self.player.show_hand())}")
             elif player_action == "Stand":
                 return
             
@@ -96,8 +96,8 @@ class BlackJack:
         self.dealer_hand.append(self.deal_card())
 
         # Player status
-        print(f"\n{self.player.name} hand: {self.player.show_hand()} Total: {self.calculate_hand(self.player.show_hand())}")
-        print(f"Dealer's first card: {self.dealer_hand[0]}")
+        print(f"\n{self.player.name}'s hand: {self.player.show_hand()} Total: {self.calculate_hand(self.player.show_hand())}")
+        print(f"Dealer's first card: {self.dealer_hand[0]}\n")
 
         # Player can choose "hit" or "stand"
         self.choose_hit_or_stand()
@@ -106,7 +106,7 @@ class BlackJack:
         if self.calculate_hand(self.player.show_hand()) > 21:
             print(f"{self.player.name} went over 21! You lost!")
             self.player.add_balance(self.player.get_bet())
-            return
+            play_again(self)
 
         # Dealer plays its turn
         print(f"\nDealer's hand: {self.dealer_hand} Total: {self.calculate_hand(self.dealer_hand)}")
@@ -123,7 +123,7 @@ class BlackJack:
             print("Dealer went over 21! Player wins!")
             self.player.add_balance(self.player.get_bet() * 2)
         elif player_total > dealer_total:
-            print(f"{self.player.name} wins!")
+            print(f"{self.player.name}'s wins!")
             self.player.add_balance(self.player.get_bet() * 2)
         elif player_total < dealer_total:
             print("Dealer wins!")
@@ -131,13 +131,18 @@ class BlackJack:
             print("It's a tie!")
 
         # Play again?
-        play_again = questionary.select("Do you want to play again?",
-            choices=[
-                "Yes",
-                "No",
-            ]).ask()
-        
-        if play_again == "Yes":
-            self.play_game()
+        play_again(self)
 
-        print("Thanks for playing!")
+        system("cls")
+        return "BackToMainMenu"
+
+
+def play_again(self):
+    play_again = questionary.select("Do you want to play again?",
+    choices=[
+        "Yes",
+        "No",
+    ]).ask()
+    
+    if play_again == "Yes":
+        self.play_game()

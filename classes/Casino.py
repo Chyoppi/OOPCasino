@@ -1,10 +1,8 @@
-#Games which are commented have not been implemented yet
 from utils.colors import CPrint
 from games.DiceGame import DiceGame
 from games.Blackjack import BlackJack
 from games.Slot import slotMachine
 from Player import Player
-
 import questionary # pip install questionary
 
 games_list = {
@@ -19,14 +17,13 @@ class Casino:
     def __init__(self, player: Player):
         self.player = player
         self.balance = player.balance
-        self.game_controls = GameControls(self)
-        self.start_casino()
 
     def __str__(self):
         return f"Welcome to the casino, you have {self.balance} points in your balance."
 
     def start_casino(self):
-        self.game_controls.show_game_menu()
+        game_controls = GameControls(self.player)
+        game_controls.show_game_menu()
 
     def reset_balance(self):
         if self.player.get_balance() == 0:
@@ -35,14 +32,10 @@ class Casino:
         else:
             print("~y~You still have money...")
 
-        self.start_casino()
+class GameControls(Casino):
 
-
-class GameControls:
-
-    def __init__(self, casino: Casino):
-        self.player = casino.player
-        self.casino = casino
+    def __init__(self, player: Player):
+        super().__init__(player)
 
     def show_game_menu(self):
         print("Welcome to the CMR Casino!\n")
@@ -68,7 +61,7 @@ class GameControls:
             if game_user_choice[0] == "Exit":
                 exit()
             elif game_user_choice[0] == "Reset Balance":
-                self.casino.reset_balance()
+                self.reset_balance()
                 self.show_game_menu()
             
             self.run_game(game_user_choice[1])
@@ -90,6 +83,7 @@ class GameControls:
 if __name__ == "__main__":
     player = Player("Test")
     casino = Casino(player)
+    casino.start_casino()
 
 
 """

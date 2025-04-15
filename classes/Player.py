@@ -8,13 +8,29 @@ class Player:
     def __str__(self):
         return f"{self.name} has a balance of {self.balance} €."
 
-    def add_balance(self, amount):
+    def add_balance(self, amount: int):
+        if amount <= 0:
+            print("Cannot add a negative balance.")
+            return False
+        
         self.balance += amount
 
-    def remove_balance(self, amount):
+    def remove_balance(self, amount: int):
+        if amount > self.balance:
+            print("Cannot remove more than the current balance.")
+            return False
+        
+        if amount == 0:
+            print("Cannot remove a zero balance.")
+            return False
+        
         self.balance -= amount
 
-    def add_card(self, card):
+    def add_card(self, card: str):
+        if not card:
+            print("Card cannot be empty.")
+            return False
+        
         self.hand.append(card)
 
     def clear_hand(self):
@@ -23,7 +39,11 @@ class Player:
     def show_hand(self):
         return self.hand
 
-    def set_bet(self, bet):
+    def set_bet(self, bet: int):
+        if not bet:
+            print("Bet cannot be empty or zero")
+            return False
+        
         self.bet = bet
 
     def get_bet(self):

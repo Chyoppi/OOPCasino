@@ -1,12 +1,11 @@
 #Games which are commented have not been implemented yet
-
+from utils.colors import CPrint
 from games.DiceGame import DiceGame
 from games.Blackjack import BlackJack
 from games.Slot import slotMachine
 from Player import Player
 
 import questionary # pip install questionary
-import os
 
 games_list = {
     1: ("Dice Game", DiceGame),

@@ -37,7 +37,8 @@ class BlackJack:
                 player_bet_input = int(questionary.text("Place your bet:").ask())
 
                 if player_bet_input <= 0:
-                    print("\033[91mBet must be greater than 0!\033[0m")
+                    print("Bet ~r~MUST~reset~ be geater than ~r~0!~reset~")
+                    
                 elif player_bet_input > self.player.get_balance():
                     print("\033[91mYou don't have enough balance!\033[0m")
                 else:

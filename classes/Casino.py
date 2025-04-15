@@ -11,7 +11,8 @@ games_list = {
     1: ("Dice Game", DiceGame),
     2: ("Slot Machine", slotMachine),
     3: ("Blackjack", BlackJack),
-    4: ("Exit", None)
+    4: ("Reset Balance", None),
+    5: ("Exit", None)
 }
 
 
@@ -57,7 +58,15 @@ class GameControls:
 
             if game_user_choice[0] == "Exit":
                 exit()
+            elif game_user_choice[0] == "Broke":
+                if self.player.get_balance() == 0:
+                    print("~y~You don't have enough money? Let's reset your balance.")
+                    self.player.add_balance(1000)
+                else:
+                    print("~y~You still have money...")
 
+                self.show_game_menu()
+            
             self.run_game(game_user_choice[1])
 
     def run_game(self, game_class):

@@ -32,6 +32,7 @@ class BlackJack:
         return total
 
     def place_bet(self):
+
         while True:
             try:
                 player_bet_input = int(questionary.text("Place your bet:").ask())
@@ -80,11 +81,18 @@ class BlackJack:
         system("cls")
         print("~g~Welcome to Blackjack!")
         self.print_blackjack_guide()
+        print(f"Your balance: ~g~{self.player.get_balance()}")
+
+        if self.player.get_balance() <= 0:
+            print(f"~r~Not enough balance!")
+            #return "BackToMainMenu"
+            game_choice = play_again(self)
+
+            if game_choice == "BackToMainMenu":
+                return "BackToMainMenu"
 
         self.player.clear_hand()
         self.dealer_hand.clear()
-
-        print(f"Your balance: ~g~{self.player.get_balance()}")
 
         player_bet = self.place_bet()
         self.player.set_bet(player_bet)
@@ -105,10 +113,14 @@ class BlackJack:
 
         # If player goes over 21, the game ends
         if self.calculate_hand(self.player.show_hand()) > 21:
-            print(f"{self.player.name} went over 21! ~r~You lost!")
-            self.player.add_balance(self.player.get_bet())
-            play_again(self)
+            print(f"{self.player.name}'s went over 21! ~r~You lost!")
+            game_choice = play_again(self)
 
+            if game_choice == "BackToMainMenu":
+                return "BackToMainMenu"
+            
+            return game_choice
+        
         # Dealer plays its turn
         print(f"\nDealer's hand: ~y~{self.dealer_hand}~reset~ Total: {self.calculate_hand(self.dealer_hand)}")
         while self.calculate_hand(self.dealer_hand) < 17:
@@ -137,6 +149,8 @@ class BlackJack:
         if game_choice == "BackToMainMenu":
             return "BackToMainMenu"
 
+        return game_choice
+
 
 def play_again(self):
     play_again = questionary.select("Do you want to play again?",
@@ -151,7 +165,7 @@ def play_again(self):
         system("cls")
     elif play_again == "No":
         print("Thank you for playing!")
-        return False
+        return exit()
     elif play_again == "Return to Game Selection":
         system("cls")
         return "BackToMainMenu"
